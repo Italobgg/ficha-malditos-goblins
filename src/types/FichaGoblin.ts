@@ -1,5 +1,4 @@
 export type FichaGoblin = {
-  id: number;
   nome: string;
   ocupacao: string;
   descritor: string;
