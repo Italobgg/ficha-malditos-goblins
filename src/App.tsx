@@ -1,11 +1,11 @@
-import FichaForm from "./components/FichaForm";
+import FichasGoblinsManager from "./components/FichasGoblinsManager";
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <FichaForm />
-    </div>
+    <main className="bg-lime-950 min-h-screen py-10 px-4 text-lime-100">
+      <div className="max-w-3xl mx-auto">
+        <FichasGoblinsManager />
+      </div>
+    </main>
   );
 }
-
-export default App;
