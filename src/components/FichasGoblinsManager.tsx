@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
-import type { FichaGoblin } from "../types/FichaGoblin";
+import { useEffect, useState } from "react";
 import FichaForm from "./FichaForm/FichaForm";
 import FichasGoblinsList from "./FichasGoblinsList/FichasGoblinsList";
+import type { FichaGoblin } from "../types/FichaGoblin"; 
 
 const fichaInicial: FichaGoblin = {
+  id: Date.now(), // Garante um ID único ao iniciar
   nome: "",
   ocupacao: "",
   descritor: "",
@@ -13,65 +14,72 @@ const fichaInicial: FichaGoblin = {
   habilidade: 0,
   nocao: 0,
   equipamentos: "",
-  vitalidade: 3,
+  vitalidade: 1,
   ferimentos: "",
 };
 
 export default function FichasGoblinsManager() {
   const [fichas, setFichas] = useState<FichaGoblin[]>([]);
   const [fichaAtual, setFichaAtual] = useState<FichaGoblin>(fichaInicial);
-  const [editando, setEditando] = useState<number | null>(null);
+  const [editando, setEditando] = useState(false);
 
+  // Carrega do localStorage
   useEffect(() => {
-    const armazenadas = localStorage.getItem("fichas");
-    if (armazenadas) setFichas(JSON.parse(armazenadas));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("fichas", JSON.stringify(fichas));
-  }, [fichas]);
-
-  useEffect(() => {
-    const armazenadas = localStorage.getItem("fichas");
-    if (armazenadas) {
-      setFichas(JSON.parse(armazenadas));
+    const dadosSalvos = localStorage.getItem("fichasGoblin");
+    if (dadosSalvos) {
+      setFichas(JSON.parse(dadosSalvos));
     }
   }, []);
 
+  // Salva no localStorage sempre que fichas mudar
   useEffect(() => {
-    localStorage.setItem("fichas", JSON.stringify(fichas));
+    localStorage.setItem("fichasGoblin", JSON.stringify(fichas));
   }, [fichas]);
 
-  const handleSubmit = () => {
-    if (editando !== null) {
-      const novas = [...fichas];
-      novas[editando] = fichaAtual;
-      setFichas(novas);
-      setEditando(null);
+  // Manipulador de mudança de dados do formulário
+  const handleChange = (novaFicha: FichaGoblin) => {
+    setFichaAtual(novaFicha);
+  };
+
+  const handleCriarOuAtualizar = () => {
+    if (editando) {
+      setFichas((prev) =>
+        prev.map((f) => (f.id === fichaAtual.id ? fichaAtual : f))
+      );
     } else {
-      setFichas([...fichas, fichaAtual]);
+      setFichas((prev) => [...prev, { ...fichaAtual, id: Date.now() }]);
     }
-    setFichaAtual(fichaInicial);
+
+    setFichaAtual({ ...fichaInicial, id: Date.now() });
+    setEditando(false);
   };
 
-  const handleEditar = (index: number) => {
-    setFichaAtual(fichas[index]);
-    setEditando(index);
+  const handleEditar = (id: number) => {
+    const ficha = fichas.find((f) => f.id === id);
+    if (ficha) {
+      setFichaAtual(ficha);
+      setEditando(true);
+    }
   };
 
-  const handleExcluir = (index: number) => {
-    if (confirm("Deseja excluir esta ficha?")) {
-      setFichas(fichas.filter((_, i) => i !== index));
+  const handleExcluir = (id: number) => {
+    const confirmar = window.confirm("Tem certeza que deseja excluir esta ficha?");
+    if (confirmar) {
+      setFichas((prev) => prev.filter((f) => f.id !== id));
+      if (fichaAtual.id === id) {
+        setFichaAtual({ ...fichaInicial, id: Date.now() });
+        setEditando(false);
+      }
     }
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4">
+    <div className="px-4 sm:px-6 lg:px-8">
       <FichaForm
         ficha={fichaAtual}
-        onChange={setFichaAtual}
-        onSubmit={handleSubmit}
-        editando={editando !== null}
+        onChange={handleChange}
+        onSubmit={handleCriarOuAtualizar}
+        editando={editando}
       />
       <FichasGoblinsList
         fichas={fichas}
