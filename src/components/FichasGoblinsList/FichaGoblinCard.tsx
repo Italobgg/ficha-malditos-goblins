@@ -9,8 +9,8 @@ type Props = {
 export default function FichaGoblinCard({ ficha, onEditar, onExcluir }: Props) {
   return (
     <div className="bg-zinc-900 border border-lime-700 rounded-xl p-5 shadow-lg text-lime-100 relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-20 h-20 bg-lime-800 opacity-10 rounded-br-full -z-10"></div>
-      <div className="absolute bottom-0 right-0 w-20 h-20 bg-lime-800 opacity-10 rounded-tl-full -z-10"></div>
+      <div className="absolute top-0 left-0 w-20 h-20 bg-lime-800 opacity-10 rounded-br-full -z-10" />
+      <div className="absolute bottom-0 right-0 w-20 h-20 bg-lime-800 opacity-10 rounded-tl-full -z-10" />
 
       <div className="flex justify-between items-baseline mb-4 pb-2 border-b border-lime-600">
         <h4 className="text-2xl sm:text-3xl font-extrabold text-lime-300 leading-tight">
@@ -23,7 +23,6 @@ export default function FichaGoblinCard({ ficha, onEditar, onExcluir }: Props) {
 
       <div className="space-y-4">
         <h5 className="text-lg font-bold text-lime-400">Dados Principais</h5>
-
         <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-4 text-sm sm:text-base">
           <div>
             <dt className="font-semibold text-lime-200">Ocupação:</dt>
@@ -44,7 +43,6 @@ export default function FichaGoblinCard({ ficha, onEditar, onExcluir }: Props) {
 
       <div className="space-y-4">
         <h5 className="text-lg font-bold text-lime-400">Atributos e Nível</h5>
-
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-y-3 gap-x-4 mb-4 text-sm sm:text-base">
           {[
             { name: "Combate", value: ficha.combate },
@@ -53,21 +51,19 @@ export default function FichaGoblinCard({ ficha, onEditar, onExcluir }: Props) {
             { name: "Vitalidade", value: ficha.vitalidade },
           ].map((attr) => (
             <div key={attr.name} className="flex flex-col items-center">
-              <span className="font-semibold text-lime-200 mb-1">
-                {attr.name}:
-              </span>
+              <span className="font-semibold text-lime-200 mb-1">{attr.name}:</span>
               <div className="flex gap-1">
                 {Array.from({ length: attr.value }).map((_, i) => (
                   <span
                     key={i}
                     className="w-3 h-3 bg-lime-500 rounded-full border border-lime-700 shadow-sm"
-                  ></span>
+                  />
                 ))}
                 {Array.from({ length: 3 - attr.value }).map((_, i) => (
                   <span
                     key={i}
                     className="w-3 h-3 bg-zinc-700 rounded-full border border-zinc-600 shadow-inner"
-                  ></span>
+                  />
                 ))}
               </div>
               <span className="text-lime-100 mt-1 font-bold">{attr.value}</span>
@@ -79,25 +75,18 @@ export default function FichaGoblinCard({ ficha, onEditar, onExcluir }: Props) {
       <hr className="border-lime-700 my-5" />
 
       <div className="space-y-4">
-        <h5 className="text-lg font-bold text-lime-400">
-          Equipamentos e Ferimentos
-        </h5>{" "}
-
+        <h5 className="text-lg font-bold text-lime-400">Equipamentos e Ferimentos</h5>
         <dl className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm sm:text-base">
           {ficha.ferimentos && (
             <div>
               <dt className="font-semibold text-red-400">Ferimentos:</dt>
-              <dd className="text-red-300 ml-2 break-words">
-                {ficha.ferimentos}
-              </dd>
+              <dd className="text-red-300 ml-2 break-words">{ficha.ferimentos}</dd>
             </div>
           )}
           {ficha.equipamentos && (
             <div>
               <dt className="font-semibold text-lime-200">Equipamentos:</dt>
-              <dd className="text-lime-100 ml-2 break-words">
-                {ficha.equipamentos}
-              </dd>
+              <dd className="text-lime-100 ml-2 break-words">{ficha.equipamentos}</dd>
             </div>
           )}
           {!ficha.ferimentos && !ficha.equipamentos && (

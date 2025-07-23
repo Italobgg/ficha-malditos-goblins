@@ -37,7 +37,7 @@ export default function FichaForm({
         e.preventDefault();
         onSubmit();
       }}
-      className="bg-zinc-900 shadow-xl rounded-2xl p-5 space-y-5 border border-lime-700 text-lime-300 mx-auto max-w-lg"
+      className="bg-zinc-900 shadow-xl rounded-2xl p-5 space-y-5 border border-lime-700 text-lime-300 mx-auto"
     >
       <h2 className="text-2xl sm:text-3xl font-bold text-center text-lime-400 mb-4">
         {editando ? "Editar Ficha" : "Criar Ficha de Maldito Goblin"}
